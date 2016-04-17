@@ -1,0 +1,20 @@
+DIARY
+
+
+8: get up, have breakfast, eat while thinking about theme
+9-12: brainstorm. got 3 ideas. spent lots more time than I have done before (on purpose)
+12: decided to prototype idea 2 (harder but bigger scope) and if it doesnt feel right, go for 3. 
+but first! lunch
+12.30: started doing proto. realise all the work needed. AI. animations. level design. just pure code will take time. and the gameplay will probably be fairly easy given we can only have so many blocks (if we want to display all the other sides.) ANd the AI will need to climb and turn. hard stuff.
+instead! let's do 3. we can finish gameplay today. add levels. start animating. 
+then:
+redraw all sprites
+add bridges, tunnels, etc
+add levels to make it interesting
+and if time: add conductor who talks to you. lots of facial animation needed
+14: lunch!
+15.30: alright, looked at old code, started re-creating it. started on a level loader. now working to same level as before, but with level loader! woo
+IRC is tempting, looking at other people's gifs is tempting. next: test out larger levels
+
+todo:
+read level from file, display the level in a sensible size, detect win condition, go to next level after timeout (or when they clikced button)
