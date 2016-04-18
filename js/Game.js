@@ -6,8 +6,11 @@ PlatformerGame.Game = function(){};
 PlatformerGame.Game.prototype = {
   create: function() {
 
+    this.game.stage.backgroundColor = "#000";
+    this.so = true;
     this.score = 0;
     this.scoreText;
+    this.gamewon = false;
 
     this.timerTimeout = 100;
     // The player and its settings
@@ -38,8 +41,53 @@ PlatformerGame.Game.prototype = {
     this.next_button = this.game.add.sprite(800, 13, 'next_button');
     this.next_button.frame = 2;
 
-    this.levels = ["none", "level1", "level2", "level3", "level4", "level5", "level6"];
+    this.levels = ["none", "level1", "level2", "level3", "level4", "level5"];
     this.level = 1;
+
+    this.firstTime = true;
+
+    this.music = this.game.add.audio('music');
+    this.music.volume = 0.7;
+    this.sfx_toot = this.game.add.audio('toot');
+    this.sfx_lvl1 = this.game.add.audio('lvl1');
+    this.sfx_lvl2 = this.game.add.audio('lvl2');
+    this.sfx_lvl3 = this.game.add.audio('lvl3');
+    this.sfx_lvl = this.game.add.audio('champ');
+
+    this.sfx_ooh = this.game.add.audio('ooh');
+    this.sfx_pleaseshift = this.game.add.audio('pleaseshift');
+    this.sfx_kremt = this.game.add.audio('kremt');
+    this.sfx_hurry = this.game.add.audio('hurry');
+    this.sfx_helpful = this.game.add.audio('helpful');
+    this.sfx_goodwork = this.game.add.audio('goodwork');
+    this.sfx_funny = this.game.add.audio('funny');
+    this.sfx_find = this.game.add.audio('find');
+    this.sfx_failure = this.game.add.audio('failure');
+    this.sfx_excellent = this.game.add.audio('excellent');
+    this.sfx_welldone = this.game.add.audio('welldone');
+    this.sfx_speed = this.game.add.audio('speed');
+    this.sfx_so = this.game.add.audio('so');
+
+
+    this.sfx_toot.onStop.add(this.stopTalkAnimation, this);
+    this.sfx_lvl1.onStop.add(this.stopTalkAnimation, this);
+    this.sfx_lvl2.onStop.add(this.stopTalkAnimation, this);
+    this.sfx_lvl3.onStop.add(this.stopTalkAnimation, this);
+    this.sfx_lvl.onStop.add(this.stopTalkAnimation, this);
+
+    this.sfx_ooh.onStop.add(this.stopTalkAnimation, this);
+    this.sfx_pleaseshift.onStop.add(this.stopTalkAnimation, this);
+    this.sfx_kremt.onStop.add(this.stopTalkAnimation, this);
+    this.sfx_hurry.onStop.add(this.stopTalkAnimation, this);
+    this.sfx_helpful.onStop.add(this.stopTalkAnimation, this);
+    this.sfx_goodwork.onStop.add(this.stopTalkAnimation, this);
+    this.sfx_funny.onStop.add(this.stopTalkAnimation, this);
+    this.sfx_find.onStop.add(this.stopTalkAnimation, this);
+    this.sfx_failure.onStop.add(this.stopTalkAnimation, this);
+    this.sfx_excellent.onStop.add(this.stopTalkAnimation, this);
+    this.sfx_welldone.onStop.add(this.stopTalkAnimation, this);
+    this.sfx_speed.onStop.add(this.stopTalkAnimation, this);
+    this.sfx_so.onStop.add(this.stopTalkAnimation, this);
         
     this.loadMap(this.levels[this.level]);
 
@@ -52,12 +100,52 @@ PlatformerGame.Game.prototype = {
     this.next_button.events.onInputDown.add(this.nextLevel, this);
     
 
-
+    this.peteBack = this.game.add.sprite(666, 370, 'pete');
+    this.peteBack.frame = 21;
+    this.peteBack.scale.setTo(6);
     this.pete = this.game.add.sprite(666, 370, 'pete');
     this.pete.scale.setTo(6);
 
+    this.pete.animations.add('idle', [0,0,0,0,0,5,5,6,6,
+        0,0,0,0,7,7,0,0,0,0,0,24,24,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,20,20,0,0,0,0,0,16,17,17,0,
+        0,0,0,0,32,32,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,20,20,0,0,0,0,0,1,1,0,
+        32,33,34,35,36,37,37,36,35,34,33,32,
+        0,0,0,0,1,1,0,0,0,0,2,2,3,3,3,4,4,4,0,0,0,0,0,0,1,1,0,0,0,0,0,20,20,0,0,0,0,0,1,1,0,
+        0,0,0,0,5,5,6,6,0,0,0,0,0,24,24,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,20,20,0,0,0,0,0,1,1,0,
+        0,0,0,0,7,7,0,0,0,0,0,24,24,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,20,20,0,0,0,0,0,16,17,17,0,
+        0,0,0,0,32,32,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,20,20,0,0,0,0,0,1,1,0,
+        18,18,19,19,20,20], 10, false);
+
+    this.pete.animations.add('toot', [16,17,18,18,18,20,16,18,18,18,20], 10, false);
+    this.pete.animations.add('talk_short', [24,25,26,27,28,29,30,31], 10, false);
+    this.pete.animations.add('talk_medium', [24,25,26,27,28,29,30,31,30,29,28,27,28,29,27,28,29,30,31], 10, false);
+    this.pete.animations.add('talk_long', [24,25,26,27,28,29,27,28,29,27,28,29,27,28,29,27,28,29,30,31, 0,1,
+        24,25,26,27,28,29,27,28,29,30,31,20,20,24,25,26,27,28,29,27,28,29,27,28,29,27,28,29,27,28,29,30,31, 0,1,
+        8,9,10,11,12,13,11,12,13,11,12,13,11,12,13,14,15,0,1], 10, false);
+
+    this.pete.animations.add('lvl1', [0,18,26,27,28,29,30,0,0,0,0,0,0,27,28,29,27,28,29,30,0,0,0,0,0,27,28,29,27,28,29,30,31, 0,1,1,0,0,
+        24,25,26,27,28,29,27,28,29,20,20,24,25,26,27,28,29,28,27,28,29,27,28,29,30,0,0,0,0,29,27,28,29,27,28,29,27,28,29,30,31, 0,1,
+        8,9,10,11,12,13,11,12,13,11,12,13,11,12,13,14,15,0,1], 10, false);
+
     this.noone = {};
     this.selected = this.noone;
+
+
+
+    this.music.loop = true;
+    this.music.play();
+
+    this.sfx_lvl1.play();
+    this.pete.animations.play("lvl1", 10, true);
+//    this.pete.animations.play("idle", 10, true);
+    
+  },
+
+  stopTalkAnimation: function(sound) {
+// explosion.onStop.add(soundStopped, this);
+    this.pete.animations.stop();
+    this.pete.frame = 0;
+    this.pete.animations.play("idle", 10, true);
 
 
   },
@@ -218,7 +306,7 @@ PlatformerGame.Game.prototype = {
       for (var x = 0; x < this.gridSizeX; x++) {
         var tmp = this.getTileName(tileRow[x]);
     
-        this.tiles[y][x] = this.tilesGroup.create(this.startGridX + this.scale*32*x + x, this.startGridY + this.scale*32*y + y, tmp);
+        this.tiles[y][x] = this.tilesGroup.create(this.startGridX + this.scale*32*x + x, this.startGridY + this.scale*32*y + y, 'tiles');
         this.tiles[y][x].anchor.setTo(0.5);
         this.tiles[y][x].scale.setTo(this.scale);
         this.tiles[y][x].gridX = x;
@@ -243,51 +331,98 @@ PlatformerGame.Game.prototype = {
 
         if (tmp == "track_station_red_facing_south") {
             this.tiles[y][x].stationName = "Snoqualmie";
+            this.tiles[y][x].frame = 26;
+
         }
         else if (tmp == "track_station_red_facing_north") {
             this.tiles[y][x].stationName = "Roslyn";
+            this.tiles[y][x].frame = 25;
         }
         else if (tmp == "track_station_red_facing_east") {
             this.tiles[y][x].stationName = "Bridgend";
+            this.tiles[y][x].frame = 3;
         }
         else if (tmp == "track_station_red_facing_west") {
             this.tiles[y][x].stationName = "Ammanford";
+            this.tiles[y][x].frame = 4;
         }
         else if (tmp == "track_station_blue_facing_south") {
             this.tiles[y][x].stationName = "Monkwearmouth";
+            this.tiles[y][x].frame = 26;
         }
         else if (tmp == "track_station_blue_facing_north") {
             this.tiles[y][x].stationName = "Stafford";
+            this.tiles[y][x].frame = 25;
         }
         else if (tmp == "track_station_blue_facing_east") {
             this.tiles[y][x].stationName = "Rhymney";
+            this.tiles[y][x].frame = 3;
         }
         else if (tmp == "track_station_blue_facing_west") {
             this.tiles[y][x].stationName = "Whitland";
+            this.tiles[y][x].frame = 4;
         }
         else if (tmp == "track_station_yellow_facing_south") {
             this.tiles[y][x].stationName = "Haverford";
+            this.tiles[y][x].frame = 26;
         }
         else if (tmp == "track_station_yellow_facing_north") {
             this.tiles[y][x].stationName = "Wolferton";
+            this.tiles[y][x].frame = 25;
         }
         else if (tmp == "track_station_yellow_facing_east") {
             this.tiles[y][x].stationName = "Saundersfoot";
+            this.tiles[y][x].frame = 3;
         }
         else if (tmp == "track_station_yellow_facing_west") {
             this.tiles[y][x].stationName = "Hindolvestone";
+            this.tiles[y][x].frame = 4;
         }
         else if (tmp == "track_station_green_facing_south") {
             this.tiles[y][x].stationName = "Common Lane";
+            this.tiles[y][x].frame = 26;
         }
         else if (tmp == "track_station_green_facing_north") {
             this.tiles[y][x].stationName = "Tower View";
+            this.tiles[y][x].frame = 25;
         }
         else if (tmp == "track_station_green_facing_east") {
             this.tiles[y][x].stationName = "Pinesway Junction";
+            this.tiles[y][x].frame = 3;
         }
         else if (tmp == "track_station_green_facing_west") {
             this.tiles[y][x].stationName = "Park Lane";
+            this.tiles[y][x].frame = 4;
+        }
+        else if (tmp == "grass") {            
+            this.tiles[y][x].frame = 0;
+        }
+        else if (tmp == "track_cross") {
+            this.tiles[y][x].frame = 1;
+        }
+        else if (tmp == "track_horizontal") {            
+            this.tiles[y][x].frame = 2;
+        }
+        else if (tmp == "track_vertical") {            
+            this.tiles[y][x].frame = 8;
+        }
+        else if (tmp == "mountain") {            
+            this.tiles[y][x].frame = 12;
+        }
+        else if (tmp == "track_south_east") {            
+            this.tiles[y][x].frame = 17;
+        }
+        else if (tmp == "track_south_west") {            
+            this.tiles[y][x].frame = 10;
+        }
+        else if (tmp == "track_north_east") {            
+            this.tiles[y][x].frame = 9;
+        }
+        else if (tmp == "track_north_west") {            
+            this.tiles[y][x].frame = 18;
+        }
+        else if (tmp == "empty") {
+            this.tiles[y][x].frame = 7;
         }
 
 
@@ -312,10 +447,28 @@ PlatformerGame.Game.prototype = {
         train.goalX = trainData[2];
         train.goalY = trainData[3];
         train.startTime = trainData[4];
+        if (this.firstTime) {
+            train.startTime = parseInt(trainData[4]) + 30;
+            this.firstTime = false;
+        }
         train.speed = trainData[5];
         train.scale.setTo(this.scale, -this.scale);
         train.anchor.setTo(0.5);
         train.direction = trainData[6];
+        if (train.direction == 0) {
+            train.angle = 0;
+        }
+        else if (train.direction == 1) {
+            train.angle = 90;
+
+        }
+        else if (train.direction == 2) {
+            train.angle = 180;
+        }
+        else if (train.direction == 3) {
+            train.angle = -90;
+        }
+
         train.turnTimeout = 50;
         train.stoppped = false;
         train.success = false;
@@ -328,6 +481,16 @@ PlatformerGame.Game.prototype = {
     
     this.winSpeedBoost = 1;
     this.startLevel();
+
+    if (this.level == 2) {
+        this.sfx_lvl2.play();
+    }
+    else if (this.level == 3) {
+        this.sfx_lvl3.play();
+    }
+    else if (this.level > 2) {
+        this.sfx_lvl.play();
+    }
   },
 
   actionOnClick: function (sprite, pointer) {
@@ -340,7 +503,7 @@ PlatformerGame.Game.prototype = {
     }
     else if(!this.tiles[clickedY][clickedX].moveable) {
         if (sprite.gridType == "mountain") {
-            this.errorText.text = "Can't move mountains!";
+            this.errorText.text = "Can't move lakes!";
             this.errorText.timer = this.timerTimeout;
         }
         else if (sprite.gridType == "track_station_red_facing_south" ||
@@ -441,9 +604,16 @@ PlatformerGame.Game.prototype = {
 
   },
 
+  gameover: function() {
+    this.gamewon = true;
+    this.errorText.text = "That's it. You've cleared all the levels! Well done!";
+    this.sfx_welldone.play();
+
+  },
+
   nextLevel: function (sprite, pointer) {
     if (!this.win) {
-     //   return false;
+        return false;
     }
 
     this.next_button.animations.play("press");
@@ -465,8 +635,7 @@ PlatformerGame.Game.prototype = {
         this.gameover();
     }
     else {
-        this.loadMap(this.levels[this.level]);        
-        
+        this.loadMap(this.levels[this.level]);
     }
   },
 
@@ -930,6 +1099,47 @@ PlatformerGame.Game.prototype = {
     else if (this.errorText.timer > 0) {
         this.errorText.timer -= 1;
     }
+
+
+    if (this.level > 1 && parseInt(this.timeSpent/1000) > 5 && this.game.rnd.integerInRange(0, 800) == 0)  {
+        var sound = this.game.rnd.integerInRange(0, 9);
+        switch (sound) {
+            case 0: this.sfx_ooh.play();
+            this.pete.animations.play("toot");
+            break;
+            case 1: this.sfx_kremt.play();
+            break;
+            case 2: this.sfx_find.play();
+            this.pete.animations.play("talk_short");
+            break;
+            case 3: this.sfx_failure.play();
+            this.pete.animations.play("talk_short");
+            break;
+            case 4: this.sfx_speed.play();
+            this.pete.animations.play("talk_short");
+            break;
+            case 5: this.sfx_hurry.play();
+            this.pete.animations.play("talk_short");
+            break;
+            case 6: this.sfx_helpful.play();
+            this.pete.animations.play("talk_short");
+            break;
+            case 7: this.sfx_funny.play();
+            this.pete.animations.play("talk_medium");
+            break;
+            case 8: this.sfx_pleaseshift.play();
+            this.pete.animations.play("talk_medium");
+            break;
+            case 9: 
+            if (this.so) {
+                this.sfx_so.play(); 
+                this.pete.animations.play("talk_medium");
+                this.so = false;
+            }
+            break;
+        }
+
+    }
    
  //   if (this.game.input.mousePointer.isDown) {
    //     this.getTileAtPos(this.game.input.x, this.game.input.y);
@@ -949,6 +1159,10 @@ PlatformerGame.Game.prototype = {
 
       if (parseFloat(train1.startTime - (this.timeSpent/1000)) > 0) {
         tmpText += "\ndeparting in " + parseFloat(train1["startTime"] - (this.timeSpent/1000)).toFixed(1) + "s";
+        if (parseFloat(train1.startTime - (this.timeSpent/1000)) < 0.2) {
+            this.sfx_toot.play();
+            this.pete.animations.play("toot");
+        }
       }
       tmpText += ".\n";
 
@@ -1058,10 +1272,30 @@ PlatformerGame.Game.prototype = {
 
     this.goalsText.text = tmpText;
     if (success) {
+        if (!this.win) {
+        var sound = this.game.rnd.integerInRange(0, 2);
+        switch (sound) {
+            case 0: this.sfx_welldone.play();
+            this.pete.animations.play("welldone");
+            break;
+            case 1: this.sfx_excellent.play();
+            this.pete.animations.play("excllent");
+            break;
+            case 2: this.sfx_goodwork.play();
+            this.pete.animations.play("goodwork");
+            break;
+          }
+
+            
+        }
         this.win = true;
         this.next_button.frame = 0;
         this.errorText.text = "Success! Click next to continue!";
     }
+    if (this.gamewon) { 
+        this.errorText.text = "That's it. You've cleared all the levels! Well done!";
+    }
+
   },
 
   getTileAtPos: function(x, y) {

@@ -15,6 +15,27 @@ and if time: add conductor who talks to you. lots of facial animation needed
 14: lunch!
 15.30: alright, looked at old code, started re-creating it. started on a level loader. now working to same level as before, but with level loader! woo
 IRC is tempting, looking at other people's gifs is tempting. next: test out larger levels
+19: got basic code all working now. time to eat
+20:30 back. next up is moving trains
+
 
 todo:
-read level from file, display the level in a sensible size, detect win condition, go to next level after timeout (or when they clikced button)
+DONE read level from file, 
+display the level in a sensible size, 
+detect win condition, 
+go to next level after timeout (or when they clikced button)
+
+add timers, move info
+secretly submit scores
+write dialogue for intro/tutorial and character
+then "write"/brainstorm next levels
+i guess ~10 levels atleast
+randomly generated levels? would be ace
+more trains
+different speeds
+tunnels
+bridges
+stops
+obstructions like road and crossing
+the trains can have destinations on them when you hover over
+

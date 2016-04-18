@@ -11,7 +11,7 @@ PlatformerGame.Preload.prototype = {
 
     this.load.setPreloadSprite(this.preloadBar);
 
-    this.game.load.spritesheet('logo-tiles', 'assets/logo-tiles.png', 17, 16);
+    this.game.load.spritesheet('logo-tiles', 'assets/gfx/logo-tiles.png', 17, 16);
     this.game.load.image('track_vertical', 'assets/track_vertical.png');
     this.game.load.image('track_horizontal', 'assets/track_horizontal.png');
     this.game.load.image('track_south_east', 'assets/track_south_east.png');
@@ -46,7 +46,8 @@ PlatformerGame.Preload.prototype = {
     this.game.load.spritesheet('reset_button', 'assets/reset_button.png', 64, 32);
     this.game.load.spritesheet('next_button', 'assets/next_button.png', 64, 32);
 
-    this.game.load.spritesheet('pete', 'assets/pete.png', 32, 32);
+    this.game.load.spritesheet('pete', 'assets/gfx/pete.png', 32, 32);
+    this.game.load.spritesheet('tiles', 'assets/gfx/tiles.png', 32, 32);
 
     this.game.load.text('level1', 'assets/levels/level1');
     this.game.load.text('level2', 'assets/levels/level2');
@@ -54,8 +55,31 @@ PlatformerGame.Preload.prototype = {
     this.game.load.text('level4', 'assets/levels/level4');
     this.game.load.text('level5', 'assets/levels/level5');
     this.game.load.text('level6', 'assets/levels/level6');
+
+
+    this.game.load.audio('music', 'assets/sfx/ld35.ogg');
+    this.game.load.audio('pleaseshift', 'assets/sfx/pleaseshift.ogg');
+    this.game.load.audio('ooh', 'assets/sfx/ooh.ogg');
+    this.game.load.audio('lvl1', 'assets/sfx/lvl1.ogg');
+    this.game.load.audio('lvl2', 'assets/sfx/lvl2.ogg');
+    this.game.load.audio('lvl3', 'assets/sfx/lvl3.ogg');
+    this.game.load.audio('kremt', 'assets/sfx/kremt.ogg');
+    this.game.load.audio('hurry', 'assets/sfx/hurry.ogg');
+    this.game.load.audio('helpful', 'assets/sfx/helpful.ogg');
+    this.game.load.audio('goodwork', 'assets/sfx/goodwork.ogg');
+    this.game.load.audio('funny', 'assets/sfx/funny.ogg');
+    this.game.load.audio('find', 'assets/sfx/find.ogg');
+    this.game.load.audio('failure', 'assets/sfx/failure.ogg');
+    this.game.load.audio('excellent', 'assets/sfx/excellent.ogg');
+    this.game.load.audio('champ', 'assets/sfx/champ.ogg');
+    this.game.load.audio('welldone', 'assets/sfx/welldone.ogg');
+    this.game.load.audio('toot', 'assets/sfx/toot.ogg');
+    this.game.load.audio('speed', 'assets/sfx/speed.ogg');
+    this.game.load.audio('so', 'assets/sfx/so.ogg');
+
+
   },
   create: function() {
-    this.state.start('Game');
+    this.state.start('Logo');
   }
 };

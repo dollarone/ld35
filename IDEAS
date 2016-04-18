@@ -101,10 +101,11 @@ screen looks like:
 <                         __H> [ GO, RONALD, GO ]
 <                   _____    >
 <             ___            >  2 mins 30 seconds
-<     _______                >
+<      _______               >
 <P____                       >  5 moves 
 <                            >
  vvvvvvvvvvvvvvvvvvvvvvvvvvvv
+
 --
 
 shift things to make them pass through things
@@ -135,4 +136,24 @@ BOOORING
 best ideas: 
 
 anti-tower defense
+pros: something i haven't done before
+cons: lots of lots of graphics
+
 puzzle-cube-platformer thing
+pros: some gfx but could be minimal. puzzle
+cons: level design++++. fair amount of work to get a working prototype. gameplay could end up being boring becuase you odnt have a way to see/plan. maaaaybe you can play and see the whole "cube"
+
+
+OR: i could make the train tracks game!
+pros: easy gameplay, tried and tested. "shift the shape of the railroad". can be ported to phones. 
+cons: already done, although that was more a proof of concept. perhaps a bit dull. lots of level design. a bit of pixeling if i want it to loook good. i did want to make this bigger. also its not a platformer!
+more ideas on that: two trains, trains that start at different times, static tiles (bridges, tunnels), steam from train, platforms, people, coloured trains
+
+
+
+todo:
+
+sprites:
+character. needs lots of animation if i do speech
+house
+then the rest could just be red/blue/green/yellow

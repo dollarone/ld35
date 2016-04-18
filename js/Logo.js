@@ -11,8 +11,8 @@ PlatformerGame.Logo.prototype = {
 
     this.platforms = this.game.add.group();
 
-    logo_top_x = -5;
-    logo_top_y = 90;
+    logo_top_x = 220;
+    logo_top_y = 215;
 
     this.createTile(logo_top_x+16*4, logo_top_y+16*0, 2);
     this.createTile(logo_top_x+16*8, logo_top_y+16*0, 2);
