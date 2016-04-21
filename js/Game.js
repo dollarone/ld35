@@ -20,6 +20,7 @@ PlatformerGame.Game.prototype = {
     this.tilesGroup = this.game.add.group();
     this.trainGroup = this.game.add.group();
 
+    this.currentlyPlaying = null;
 
     this.startGridX = 90;
     this.startGridY = 90;
@@ -28,20 +29,20 @@ PlatformerGame.Game.prototype = {
     this.scale = 1;
     this.timer = 0;
 
-    this.titleText = this.game.add.text(90, 13, 'Railroad Shifter', { font: '32px Arial', fill: '#e22' });
-    this.errorText = this.game.add.text(120, 524, '', { font: '24px Arial', fill: '#e22' });
+    this.titleText = this.game.add.text(250, 13, 'Railroad Shifter', { font: '32px Arial', fill: '#e22' });
+    this.errorText = this.game.add.text(180, 530, '', { font: '24px Arial', fill: '#e22' });
     this.levelText = this.game.add.text(650, 60, '', { font: '16px Arial', fill: '#e22' });
     this.goalsText = this.game.add.text(650, 80, '', { font: '16px Arial', fill: '#e22' });
     this.timeSpent = 0;
-    this.timeText = this.game.add.text(650, 300, 'Time: ' + this.timeSpent, { font: '16px Arial', fill: '#e22' });
+    this.timeText = this.game.add.text(650, 325, 'Time: ' + this.timeSpent, { font: '16px Arial', fill: '#e22' });
     this.score = 0;
-    this.scoreText = this.game.add.text(650, 330, 'Number of moves: ' + this.score, { font: '16px Arial', fill: '#e22' });
+    this.scoreText = this.game.add.text(650, 345, 'Number of moves: ' + this.score, { font: '16px Arial', fill: '#e22' });
 
     this.reset_button = this.game.add.sprite(676, 13, 'reset_button');
     this.next_button = this.game.add.sprite(800, 13, 'next_button');
     this.next_button.frame = 2;
 
-    this.levels = ["none", "level1", "level2", "level3", "level4", "level5"];
+    this.levels = ["none", "level1", "level2", "level3", "level4", "level5", "level6", "level7", "level8", "level9", "level10"];
     this.level = 1;
 
     this.firstTime = true;
@@ -137,6 +138,7 @@ PlatformerGame.Game.prototype = {
 
     this.sfx_lvl1.play();
     this.pete.animations.play("lvl1", 10, true);
+    this.currentlyPlaying = this.sfx_lvl1;
 //    this.pete.animations.play("idle", 10, true);
     
   },
@@ -146,7 +148,7 @@ PlatformerGame.Game.prototype = {
     this.pete.animations.stop();
     this.pete.frame = 0;
     this.pete.animations.play("idle", 10, true);
-
+    this.currentlyPlaying = null;
 
   },
 
@@ -283,14 +285,21 @@ PlatformerGame.Game.prototype = {
     this.gridSizeX = size[0];
     this.gridSizeY = size[1];
 
-    if (this.gridSizeY < 6 && this.gridSizeX < 7) {
+    if (this.gridSizeY < 6 && this.gridSizeX < 5) {
         this.scale = 3;
+        this.startGridX = 260;
+    }
+    else if (this.gridSizeY < 6 && this.gridSizeX < 7) {
+        this.scale = 3;
+        this.startGridX = 90;
     }
     else if (this.gridSizeY < 8 && this.gridSizeX < 10) {
         this.scale = 2;
+        this.startGridX = 90;
     }
     else {
         this.scale = 1;
+        this.startGridX = 90;
     }
 
     var totalTrains = size[2];
@@ -439,21 +448,22 @@ PlatformerGame.Game.prototype = {
         //this.train = this.trainGroup.create(this.startGridX + 32*2 + 1*2 + 16, this.startGridY + 16, 'train_red');
         var trainData = text[i+1].split(',');
         
-        var train = this.trainGroup.create(this.startGridX + this.scale*32*parseInt(trainData[0]) + parseInt(trainData[0]),
-            this.startGridY + 32*parseInt(trainData[1]) + parseInt(trainData[1]), 
+        var train = this.trainGroup.create(this.startGridX + (this.scale*32*parseInt(trainData[0]) + parseInt(trainData[0])),
+            (this.startGridY + (this.scale*32*parseInt(trainData[1])) + parseInt(trainData[1])), 
             "train_" + this.trainColours[i]);
         train.gridX = trainData[0];
         train.gridY = trainData[1];
         train.goalX = trainData[2];
         train.goalY = trainData[3];
         train.startTime = trainData[4];
+        train.isdead = false;
         if (this.firstTime) {
             train.startTime = parseInt(trainData[4]) + 30;
             this.firstTime = false;
         }
         train.speed = trainData[5];
-        train.scale.setTo(this.scale, -this.scale);
         train.anchor.setTo(0.5);
+        train.scale.setTo(this.scale, -this.scale);
         train.direction = trainData[6];
         if (train.direction == 0) {
             train.angle = 0;
@@ -464,10 +474,13 @@ PlatformerGame.Game.prototype = {
         }
         else if (train.direction == 2) {
             train.angle = 180;
+            //train.scale.setTo(this.scale, this.scale);
         }
         else if (train.direction == 3) {
             train.angle = -90;
         }
+
+        
 
         train.turnTimeout = 50;
         train.stoppped = false;
@@ -481,15 +494,22 @@ PlatformerGame.Game.prototype = {
     
     this.winSpeedBoost = 1;
     this.startLevel();
+    if (this.currentlyPlaying != null) {
+        this.currentlyPlaying.stop();
+    }
 
     if (this.level == 2) {
         this.sfx_lvl2.play();
+        this.currentlyPlaying = this.sfx_lvl2;
     }
     else if (this.level == 3) {
         this.sfx_lvl3.play();
+        this.currentlyPlaying = this.sfx_lvl3;
     }
     else if (this.level > 2) {
+
         this.sfx_lvl.play();
+        this.currentlyPlaying = this.sfx_lvl;
     }
   },
 
@@ -606,14 +626,19 @@ PlatformerGame.Game.prototype = {
 
   gameover: function() {
     this.gamewon = true;
-    this.errorText.text = "That's it. You've cleared all the levels! Well done!";
+    this.errorText.text = "That's it. You've cleared all the levels!\n             Well done!";
+    if (this.currentlyPlaying != null) {
+        this.currentlyPlaying.stop();
+    }
+
     this.sfx_welldone.play();
+    this.currentlyPlaying = this.sfx_welldone;
 
   },
 
   nextLevel: function (sprite, pointer) {
     if (!this.win) {
-        return false;
+     //   return false;
     }
 
     this.next_button.animations.play("press");
@@ -664,7 +689,7 @@ PlatformerGame.Game.prototype = {
     this.timer = 0;
     this.win = false;
     this.next_button.animations.stop();
-    this.next_button.frame = 2;
+    this.next_button.frame = 0;//2;
     this.errorText.text = "";
   },
   checkWin: function() {
@@ -1103,38 +1128,57 @@ PlatformerGame.Game.prototype = {
 
     if (this.level > 1 && parseInt(this.timeSpent/1000) > 5 && this.game.rnd.integerInRange(0, 800) == 0)  {
         var sound = this.game.rnd.integerInRange(0, 9);
+        if (this.currentlyPlaying != null) {
+            this.currentlyPlaying.stop();
+        }
+
         switch (sound) {
             case 0: this.sfx_ooh.play();
+            this.currentlyPlaying = this.sfx_ooh;
             this.pete.animations.play("toot");
             break;
             case 1: this.sfx_kremt.play();
+            this.currentlyPlaying = this.sfx_kremt;
             break;
             case 2: this.sfx_find.play();
+            this.currentlyPlaying = this.sfx_find;
             this.pete.animations.play("talk_short");
             break;
             case 3: this.sfx_failure.play();
+            this.currentlyPlaying = this.sfx_failure;
             this.pete.animations.play("talk_short");
             break;
             case 4: this.sfx_speed.play();
+            this.currentlyPlaying = this.sfx_speed;
             this.pete.animations.play("talk_short");
             break;
             case 5: this.sfx_hurry.play();
+            this.currentlyPlaying = this.sfx_hurry;
             this.pete.animations.play("talk_short");
             break;
             case 6: this.sfx_helpful.play();
+            this.currentlyPlaying = this.sfx_helpful;
             this.pete.animations.play("talk_short");
             break;
             case 7: this.sfx_funny.play();
+            this.currentlyPlaying = this.sfx_funny;
             this.pete.animations.play("talk_medium");
             break;
             case 8: this.sfx_pleaseshift.play();
+            this.currentlyPlaying = this.sfx_pleaseshift;
             this.pete.animations.play("talk_medium");
             break;
             case 9: 
             if (this.so) {
                 this.sfx_so.play(); 
+                this.currentlyPlaying = this.sfx_so;
                 this.pete.animations.play("talk_medium");
                 this.so = false;
+            }
+            else {
+                this.sfx_kremt.play();
+                this.currentlyPlaying = this.sfx_kremt;
+
             }
             break;
         }
@@ -1149,9 +1193,30 @@ PlatformerGame.Game.prototype = {
     var success = true;
 
     this.trainGroup.forEach(function(train1) {
-        if (!train1.success) {
-            success = false;
+      this.trainGroup.forEach(function(train2) {
+        if (this.distanceBetweenTwoPoints(train1, train2) < (15*this.scale) && train1 != train2 && !train1.isdead && !train2.isdead) {
+            var explosion = this.game.add.sprite(train1.x, train1.y, 'tiles');
+            explosion.anchor.setTo(0.5);
+            explosion.scale.setTo(this.scale);
+            explosion.frame = 5;
+            this.game.add.tween(explosion).to( { alpha: 0 }, 300, Phaser.Easing.Elastic.None, true);
+            var explosion = this.game.add.sprite(train2.x, train2.y, 'tiles');
+            explosion.anchor.setTo(0.5);
+            explosion.scale.setTo(this.scale);
+            explosion.frame = 5;
+            this.game.add.tween(explosion).to( { alpha: 0 }, 300, Phaser.Easing.Elastic.None, true);
+            train1.isdead = true;
+            train2.isdead = true;
+            train1.kill();
+            train2.kill();
+
         }
+    }, this);
+
+
+      if (!train1.success) {
+        success = false;
+      }
 
       tmpText += "\nTrain from " + train1["from"] + "\ngoing to " + train1["to"];
 
@@ -1160,7 +1225,12 @@ PlatformerGame.Game.prototype = {
       if (parseFloat(train1.startTime - (this.timeSpent/1000)) > 0) {
         tmpText += "\ndeparting in " + parseFloat(train1["startTime"] - (this.timeSpent/1000)).toFixed(1) + "s";
         if (parseFloat(train1.startTime - (this.timeSpent/1000)) < 0.2) {
+            if (this.currentlyPlaying != null) {
+                this.currentlyPlaying.stop();
+            }
+
             this.sfx_toot.play();
+            this.currentlyPlaying = this.sfx_toot;
             this.pete.animations.play("toot");
         }
       }
@@ -1172,6 +1242,10 @@ PlatformerGame.Game.prototype = {
 //        console.log("checking at :" + train1.x + "," + train1.y);
         var tileAt = this.getTileAtPos(Math.round(train1.x), Math.round(train1.y));
   //      console.log(tileAt.gridX + "," + tileAt.gridY);
+
+        if (tileAt == null) {
+            tileAt = train1;
+        }
 
         if (tileAt.gridX != train1.gridX || tileAt.gridY != train1.gridY) {
             fail = parseInt( this.getNewDirection(this.tiles[parseInt(tileAt.gridY)][parseInt(tileAt.gridX)], train1) );
@@ -1274,14 +1348,20 @@ PlatformerGame.Game.prototype = {
     if (success) {
         if (!this.win) {
         var sound = this.game.rnd.integerInRange(0, 2);
+        if (this.currentlyPlaying != null) {
+            this.currentlyPlaying.stop();
+        }
         switch (sound) {
             case 0: this.sfx_welldone.play();
+            this.currentlyPlaying = this.sfx_welldone;
             this.pete.animations.play("welldone");
             break;
             case 1: this.sfx_excellent.play();
-            this.pete.animations.play("excllent");
+            this.currentlyPlaying = this.sfx_excellent;
+            this.pete.animations.play("excellent");
             break;
             case 2: this.sfx_goodwork.play();
+            this.currentlyPlaying = this.sfx_goodwork;
             this.pete.animations.play("goodwork");
             break;
           }
@@ -1293,7 +1373,7 @@ PlatformerGame.Game.prototype = {
         this.errorText.text = "Success! Click next to continue!";
     }
     if (this.gamewon) { 
-        this.errorText.text = "That's it. You've cleared all the levels! Well done!";
+        this.errorText.text = "That's it. You've cleared all the levels!\n                    Well done!";
     }
 
   },
@@ -1311,6 +1391,16 @@ PlatformerGame.Game.prototype = {
     }, this);
     
     return mytile;
+  },
+
+  distanceBetweenTwoPoints: function(a, b) {
+    var xs = b.x - a.x;
+    xs = xs * xs;
+
+    var ys = b.y - a.y;
+    ys = ys * ys;
+
+    return Math.sqrt(xs + ys);
   },
 
 };

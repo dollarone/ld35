@@ -55,6 +55,10 @@ PlatformerGame.Preload.prototype = {
     this.game.load.text('level4', 'assets/levels/level4');
     this.game.load.text('level5', 'assets/levels/level5');
     this.game.load.text('level6', 'assets/levels/level6');
+    this.game.load.text('level7', 'assets/levels/level7');
+    this.game.load.text('level8', 'assets/levels/level8');
+    this.game.load.text('level9', 'assets/levels/level9');
+    this.game.load.text('level10', 'assets/levels/level10');
 
 
     this.game.load.audio('music', 'assets/sfx/ld35.ogg');
