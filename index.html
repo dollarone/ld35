@@ -1,26 +1,103 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <meta charset="utf-8" />
+        <title>LD35 - Railroad Shifter</title>
 
-	<head>
-		<meta charset="utf-8" />
-		<title>LD35 - Railroad Shifter</title>
+        <script type="text/javascript" src="js/phaser.min.js"></script>
+        <script type="text/javascript" src="js/Boot.js"></script>
+        <script type="text/javascript" src="js/Preload.js"></script>
+        <script type="text/javascript" src="js/Game.js"></script>
+        <script type="text/javascript" src="js/Logo.js"></script>
+        <script src="/pan/jquery-1.3.2.min.js" type="text/javascript"></script>
+        <script src="/pan/plugin-detect-0.6.3.js" type="text/javascript"></script>
+        <script src="/pan/deployJava.js" type="text/javascript"></script>
+        <script src="/pan/jquery.flash.js" type="text/javascript"></script>
 
-		<script type="text/javascript" src="js/phaser.min.js"></script>
-		<script type="text/javascript" src="js/Boot.js"></script>
-		<script type="text/javascript" src="js/Preload.js"></script>
-		<script type="text/javascript" src="js/Game.js"></script>
-		<script type="text/javascript" src="js/Logo.js"></script>
+        <script src="/pan/fetch_whorls.js" type="text/javascript"></script>
+        <script src="/pan/md5.js"></script>
+        <style>
+          body {
+            padding: 0px;
+            margin: 0px;
+          }
+          </style>
+    </head>
 
-		<style>
-		  body {
-		    padding: 0px;
-		    margin: 0px;
-		  }
-		  </style>
-	</head>
+    <body>
+        <!-- include the main game file -->
+        <script src="js/main.js"></script>
+        <script type="text/javascript">
+<!--
+var allFonts = "";
+var flashFail = true;
+function populateFontList(fontArr)
+{
+        flashFail = false;
 
-	<body>  
-		<!-- include the main game file -->
-		<script src="js/main.js"></script>
-	</body>
+        // thanks to http://hasseg.org/blog/post/526/getting-a-list-of-installed-fonts-with-flash-and-javascript/
+        for (var key in fontArr)
+        {
+                var fontName = fontArr[key];
+                
+                // trim
+                fontName = fontName.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+                
+                if (fontName.match(/[_\-\s]Italic$/)
+                        || fontName.match(/[_\-\s](Demi)?[Bb]old$/)
+                        || fontName.match(/[_\-\s]Medium$/)
+                        || fontName.match(/[_\-\s](Ultra)?[Ll]ight$/)
+                        || fontName.match(/[_\-\s]Condensed$/)
+                        ) {
+                        allFonts += fontName + ", ";
+                 }
+
+                else
+                {
+                        allFonts += fontName + ", ";
+                }
+        }
+        createOrLoginUser(getMD5());
+}
+
+function getMD5() {
+        
+        var test = fetch_client_whorls();
+        test['fonts'] = allFonts;
+        var test2 = "";
+        for (var i in test) {
+               test2 += test[i];
+        }
+
+        return CryptoJS.MD5(test2);
+
+}
+-->
+</script>
+
+<object id="fontListSWF" name="fontListSWF"
+        type="application/x-shockwave-flash"
+        data="FontList.swf" width="1" height="1">
+    <param name="movie" value="FontList.swf">
+        <embed src="/FontList.swf" width="1" height="1"></embed>
+</object>
+<script>
+setTimeout(getMD5IfFlashFailed,500);
+
+function getMD5IfFlashFailed() {
+  if (flashFail) {
+    createOrLoginUser(getMD5());
+  }
+}
+var userhash = "no"
+function getUserhash() {
+   return userhash;
+}
+function createOrLoginUser(user) {
+   userhash = user
+   return user;
+}
+</script>
+
+ </body>
 </html>
