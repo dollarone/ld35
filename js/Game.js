@@ -19,6 +19,7 @@ PlatformerGame.Game.prototype = {
     this.tiles = new Array(10);
     this.tilesGroup = this.game.add.group();
     this.trainGroup = this.game.add.group();
+    this.smokeGroup = this.game.add.group();
 
     this.currentlyPlaying = null;
 
@@ -29,10 +30,11 @@ PlatformerGame.Game.prototype = {
     this.scale = 1;
     this.timer = 0;
 
-    this.titleText = this.game.add.text(250, 13, 'Railroad Shifter', { font: '32px Arial', fill: '#e22' });
+    this.titleText = this.game.add.text(250, 10, 'Railroad Shifter', { font: '32px Arial', fill: '#e22' });
     this.errorText = this.game.add.text(180, 530, '', { font: '24px Arial', fill: '#e22' });
-    this.levelText = this.game.add.text(650, 60, '', { font: '16px Arial', fill: '#e22' });
-    this.goalsText = this.game.add.text(650, 80, '', { font: '16px Arial', fill: '#e22' });
+    this.levelText = this.game.add.text(650, 55, '', { font: '16px Arial', fill: '#e22' });
+    this.goalsText = this.game.add.text(650, 65, '', { font: '16px', fill: '#e22' });
+    this.goalsText.lineSpacing = -9;
     this.timeSpent = 0;
     this.timeText = this.game.add.text(650, 325, 'Time: ' + this.timeSpent, { font: '16px Arial', fill: '#e22' });
     this.score = 0;
@@ -68,6 +70,8 @@ PlatformerGame.Game.prototype = {
     this.sfx_welldone = this.game.add.audio('welldone');
     this.sfx_speed = this.game.add.audio('speed');
     this.sfx_so = this.game.add.audio('so');
+    this.sfx_explosion = this.game.add.audio('explosion');
+    this.sfx_explosion.volume = 0.5;
 
 
     this.sfx_toot.onStop.add(this.stopTalkAnimation, this);
@@ -131,8 +135,6 @@ PlatformerGame.Game.prototype = {
     this.noone = {};
     this.selected = this.noone;
 
-
-
     this.music.loop = true;
     this.music.play();
 
@@ -141,6 +143,32 @@ PlatformerGame.Game.prototype = {
     this.currentlyPlaying = this.sfx_lvl1;
 //    this.pete.animations.play("idle", 10, true);
     
+  },
+
+  generateSmoke: function (train) {
+ //   var smoke = this.smokeGroup.create(train.x, train.y, 'smoke');
+    var smoke = this.game.add.sprite(train.x, train.y, 'smoke');
+    smoke.anchor.setTo(0.5);
+    smoke.scale.setTo(this.scale);
+    smoke.animations.add('smoke', [0,1,2,3], 5, false);
+    smoke.animations.play('smoke');
+    
+    this.game.add.tween(smoke).to( { alpha: 0 }, 1500, Phaser.Easing.Elastic.None, true);
+    
+    if (train.direction == 0) {
+//        this.game.add.tween(smoke).to( { y: train.y}, 5000, 'Linear', true, 0);
+      smoke.y += 3*this.scale;
+    }
+    else if (train.direction == 2) {
+      smoke.y -= 3*this.scale;
+    }   
+    else if (train.direction == 1) {
+      smoke.x -= 3*this.scale;
+    }
+    else if (train.direction == 3) {
+      smoke.x += 3*this.scale;
+    }
+  
   },
 
   stopTalkAnimation: function(sound) {
@@ -1209,6 +1237,8 @@ PlatformerGame.Game.prototype = {
             train2.isdead = true;
             train1.kill();
             train2.kill();
+            this.sfx_explosion.play();
+            this.sfx_failure.play();
 
         }
     }, this);
@@ -1233,6 +1263,12 @@ PlatformerGame.Game.prototype = {
             this.currentlyPlaying = this.sfx_toot;
             this.pete.animations.play("toot");
         }
+      }
+      else if (!train1.stopped && !train1.isdead && (parseFloat(train1.startTime) + this.timer) % parseInt(100/train1.speed) == 0) {
+
+        this.generateSmoke(train1);
+
+
       }
       tmpText += ".\n";
 

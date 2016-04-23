@@ -6,7 +6,7 @@ PlatformerGame.Boot = function(){};
 PlatformerGame.Boot.prototype = {
   preload: function() {
     //assets we'll use in the loading screen
-    this.load.image('preloadbar', 'assets/loadingbar.png');
+    this.load.image('preloadbar', 'assets/gfx/loadingbar.png');
   },
   create: function() {
     //loading screen will have a black background
@@ -20,7 +20,7 @@ PlatformerGame.Boot.prototype = {
     this.scale.pageAlignVertically = true;
 
     //screen size will be set automatically
-    this.scale.setScreenSize(true);
+    //this.scale.setScreenSize(true);
 
     //physics system
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
