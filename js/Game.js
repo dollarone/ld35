@@ -93,7 +93,8 @@ PlatformerGame.Game.prototype = {
     this.sfx_welldone.onStop.add(this.stopTalkAnimation, this);
     this.sfx_speed.onStop.add(this.stopTalkAnimation, this);
     this.sfx_so.onStop.add(this.stopTalkAnimation, this);
-        
+
+    this.graphics = this.game.add.graphics(0,0);
     this.loadMap(this.levels[this.level]);
 
     this.reset_button.animations.add('press', [1,0], 10, false);
@@ -119,18 +120,39 @@ PlatformerGame.Game.prototype = {
         0,0,0,0,5,5,6,6,0,0,0,0,0,24,24,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,20,20,0,0,0,0,0,1,1,0,
         0,0,0,0,7,7,0,0,0,0,0,24,24,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,20,20,0,0,0,0,0,16,17,17,0,
         0,0,0,0,32,32,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,20,20,0,0,0,0,0,1,1,0,
-        18,18,19,19,20,20], 10, false);
+        18,18,19,19,20,20,
+        1,1,0,0,0,0,2,2,3,3,3,4,4,4,0,0,0,0,0,0,16,17,17,0,0,0,0,20,20,0,0,0,0,0,1,1,0,
+        0,0,0,0,5,5,6,6,0,0,0,0,0,24,24,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,20,20,0,0,0,0,0,1,1,0,
+        0,0,6,6,7,7,0,0,0,0,0,24,24,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,20,20,0,0,0,0,0,16,17,17,0,
+        0,0,0,0,32,32,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,20,20,0,0,0,0,0,1,1,0,
+        ], 10, false);
 
     this.pete.animations.add('toot', [16,17,18,18,18,20,16,18,18,18,20], 10, false);
-    this.pete.animations.add('talk_short', [24,25,26,27,28,29,30,31], 10, false);
-    this.pete.animations.add('talk_medium', [24,25,26,27,28,29,30,31,30,29,28,27,28,29,27,28,29,30,31], 10, false);
-    this.pete.animations.add('talk_long', [24,25,26,27,28,29,27,28,29,27,28,29,27,28,29,27,28,29,30,31, 0,1,
-        24,25,26,27,28,29,27,28,29,30,31,20,20,24,25,26,27,28,29,27,28,29,27,28,29,27,28,29,27,28,29,30,31, 0,1,
-        8,9,10,11,12,13,11,12,13,11,12,13,11,12,13,14,15,0,1], 10, false);
+    this.pete.animations.add('talk_supershort', [26,27,28,29,30,31], 10, false);
+    this.pete.animations.add('talk_short', [24,25,26,27,28,29,30,31,30,29,28,27,28,29,27,28,29,30,31], 10, false);
+    this.pete.animations.add('talk_medium', [0,1,8,9,10,11,12,13,14,15,14,13,12,11,12,13,14,15,16,17,24,25,26,27,28,29,30,31,30,29,28,27,28,29,27,28,29,30,31], 10, false);
+    this.pete.animations.add('talk_long', [24,25,26,27,28,29,0,1,0,1,28,29,27,28,29,27,28,29,28,18,18,27,26,27,28,29,30,31, 1,0,0,0,
+        27,28,29,27,28,29,25,26,27,28,29,27,28,29,27,28,29,30,31,
+        11,12,13,11,12,13,11,12,13,14,15,0,1], 10, false);
 
-    this.pete.animations.add('lvl1', [0,18,26,27,28,29,30,0,0,0,0,0,0,27,28,29,27,28,29,30,0,0,0,0,0,27,28,29,27,28,29,30,31, 0,1,1,0,0,
-        24,25,26,27,28,29,27,28,29,20,20,24,25,26,27,28,29,28,27,28,29,27,28,29,30,0,0,0,0,29,27,28,29,27,28,29,27,28,29,30,31, 0,1,
-        8,9,10,11,12,13,11,12,13,11,12,13,11,12,13,14,15,0,1], 10, false);
+    this.pete.animations.add('lvl1', [0,18,26,27,28,29,30,0,0,0,0,0,0,27,28,29,27,28,29,30,0,0,0,0,0,1,1,0,27,28,29,28,29,30,31, 0,1,1,
+        31,24,25,
+        25,26,27,28,29,27,28,31,24,29,27,28,29,25,26,27,28,29,28,27,28,0,0,0,1,1, // help here
+        24,25,
+        29,27,31,28,29,31,31,27,28,29,30,31,
+        10,11,12,13,11,12,13,11,12,13,14,15,0,1,
+        24,25,26,27,28,29,0,1,0,1,28,29,27,28,29,27,28,29,28,18,18,27,26,27,28,29,30,31, 1,0,
+        27,28,29,27,28,29,25,26,27,28,29,27,28,29,27,28,29,30,31,
+        11,12,13,11,12,13,11,12,13,14,15,0,1
+        ], 10, false);
+
+
+
+
+
+    this.pete.animations.add('talk_verylong', [0,18,26,27,28,29,30,0,0,0,0,0,0,27,28,29,27,28,29,30,0,0,0,0,0,27,28,29,27,28,29,30,31, 0,1,1,0,0,
+        25,26,27,28,29,27,28,29,25,26,27,28,29,28,27,28,0,0,0,0,29,27,28,29,27,28,29,27,28,29,30,31,
+        10,11,12,13,11,12,13,11,12,13,11,12,13,14,15,0,1], 10, false);
 
     this.noone = {};
     this.selected = this.noone;
@@ -472,6 +494,10 @@ PlatformerGame.Game.prototype = {
     this.goalsText.text = "";
     trains = {};
 
+    
+    this.graphics.clear();
+    this.graphics = this.add.graphics(0,0); 
+
     for (var i = 1; i <= totalTrains; i++) {
         //this.train = this.trainGroup.create(this.startGridX + 32*2 + 1*2 + 16, this.startGridY + 16, 'train_red');
         var trainData = text[i+1].split(',');
@@ -517,6 +543,90 @@ PlatformerGame.Game.prototype = {
         train["to"] = this.tiles[train.goalY][train.goalX].stationName;
         train["startTime"] = train.startTime;
 
+        //this.graphics = this.add.graphics(0,0); 
+//        this.graphics = this.graphics.clear();
+        //this.graphics = this.add.graphics(0,0); 
+
+        if (this.tiles[train.goalY][train.goalX].gridType == "track_station_red_facing_west") {
+            this.graphics.lineStyle(1, 0x771818, 1);
+            this.graphics.drawRect(this.tiles[train.goalY][train.goalX].x-(12*this.scale-2), this.tiles[train.goalY][train.goalX].y-(12*this.scale+1), this.scale*4 + 4, this.scale*2+1);
+
+        }
+        else if (this.tiles[train.goalY][train.goalX].gridType == "track_station_red_facing_north") {
+            this.graphics.lineStyle(1, 0x771818, 1);
+            this.graphics.drawRect(this.tiles[train.goalY][train.goalX].x+12*this.scale-1, this.tiles[train.goalY][train.goalX].y-(9*this.scale)-1, this.scale*2+1, this.scale*5);
+
+        }
+        else if (this.tiles[train.goalY][train.goalX].gridType == "track_station_red_facing_east") {
+            this.graphics.lineStyle(1, 0x771818, 1);
+            this.graphics.drawRect(this.tiles[train.goalY][train.goalX].x+7*this.scale-1, this.tiles[train.goalY][train.goalX].y-15*this.scale-1, this.scale*4+3, this.scale*2);
+
+        }
+        else if (this.tiles[train.goalY][train.goalX].gridType == "track_station_red_facing_south") {
+            this.graphics.lineStyle(1, 0x771818, 1);
+            this.graphics.drawRect(this.tiles[train.goalY][train.goalX].x+12*this.scale-1, this.tiles[train.goalY][train.goalX].y-11*this.scale, this.scale*2+1, this.scale*5);
+
+        }
+        else if (this.tiles[train.goalY][train.goalX].gridType == "track_station_blue_facing_west") {
+            this.graphics.lineStyle(1, 0x092d5e, 1);
+            this.graphics.drawRect(this.tiles[train.goalY][train.goalX].x-(12*this.scale-2), this.tiles[train.goalY][train.goalX].y-(12*this.scale+1), this.scale*4 + 4, this.scale*2+1);
+
+        }
+        else if (this.tiles[train.goalY][train.goalX].gridType == "track_station_blue_facing_north") {
+            this.graphics.lineStyle(1, 0x092d5e, 1);
+            this.graphics.drawRect(this.tiles[train.goalY][train.goalX].x+12*this.scale-1, this.tiles[train.goalY][train.goalX].y-(9*this.scale)-1, this.scale*2+1, this.scale*5);
+
+        }
+        else if (this.tiles[train.goalY][train.goalX].gridType == "track_station_blue_facing_east") {
+            this.graphics.lineStyle(1, 0x092d5e, 1);
+            this.graphics.drawRect(this.tiles[train.goalY][train.goalX].x+7*this.scale-1, this.tiles[train.goalY][train.goalX].y-15*this.scale-1, this.scale*4+3, this.scale*2);
+
+        }
+        else if (this.tiles[train.goalY][train.goalX].gridType == "track_station_blue_facing_south") {
+            this.graphics.lineStyle(1, 0x092d5e, 1);
+            this.graphics.drawRect(this.tiles[train.goalY][train.goalX].x+12*this.scale-1, this.tiles[train.goalY][train.goalX].y-11*this.scale, this.scale*2+1, this.scale*5);
+
+        }
+        else if (this.tiles[train.goalY][train.goalX].gridType == "track_station_yellow_facing_west") {
+            this.graphics.lineStyle(1, 0xa6b006, 1);
+            this.graphics.drawRect(this.tiles[train.goalY][train.goalX].x-(12*this.scale-2), this.tiles[train.goalY][train.goalX].y-(12*this.scale+1), this.scale*4 + 4, this.scale*2+1);
+
+        }
+        else if (this.tiles[train.goalY][train.goalX].gridType == "track_station_yellow_facing_north") {
+            this.graphics.lineStyle(1, 0xa6b006, 1);
+            this.graphics.drawRect(this.tiles[train.goalY][train.goalX].x+12*this.scale-1, this.tiles[train.goalY][train.goalX].y-(9*this.scale)-1, this.scale*2+1, this.scale*5);
+
+        }
+        else if (this.tiles[train.goalY][train.goalX].gridType == "track_station_yellow_facing_east") {
+            this.graphics.lineStyle(1, 0xa6b006, 1);
+            this.graphics.drawRect(this.tiles[train.goalY][train.goalX].x+7*this.scale-1, this.tiles[train.goalY][train.goalX].y-15*this.scale-1, this.scale*4+3, this.scale*2);
+
+        }
+        else if (this.tiles[train.goalY][train.goalX].gridType == "track_station_yellow_facing_south") {
+            this.graphics.lineStyle(1, 0xa6b006, 1);
+            this.graphics.drawRect(this.tiles[train.goalY][train.goalX].x+12*this.scale-1, this.tiles[train.goalY][train.goalX].y-11*this.scale, this.scale*2+1, this.scale*5);
+        }
+        else if (this.tiles[train.goalY][train.goalX].gridType == "track_station_green_facing_west") {
+            this.graphics.lineStyle(1, 0x026835, 1);
+            this.graphics.drawRect(this.tiles[train.goalY][train.goalX].x-(12*this.scale-2), this.tiles[train.goalY][train.goalX].y-(12*this.scale+1), this.scale*4 + 4, this.scale*2+1);
+
+        }
+        else if (this.tiles[train.goalY][train.goalX].gridType == "track_station_green_facing_north") {
+            this.graphics.lineStyle(1, 0x026835, 1);
+            this.graphics.drawRect(this.tiles[train.goalY][train.goalX].x+12*this.scale-1, this.tiles[train.goalY][train.goalX].y-(9*this.scale)-1, this.scale*2+1, this.scale*5);
+
+        }
+        else if (this.tiles[train.goalY][train.goalX].gridType == "track_station_green_facing_east") {
+            this.graphics.lineStyle(1, 0x026835, 1);
+            this.graphics.drawRect(this.tiles[train.goalY][train.goalX].x+7*this.scale-1, this.tiles[train.goalY][train.goalX].y-15*this.scale-1, this.scale*4+3, this.scale*2);
+
+        }
+        else if (this.tiles[train.goalY][train.goalX].gridType == "track_station_green_facing_south") {
+            this.graphics.lineStyle(1, 0x026835, 1);
+            this.graphics.drawRect(this.tiles[train.goalY][train.goalX].x+12*this.scale-1, this.tiles[train.goalY][train.goalX].y-11*this.scale, this.scale*2+1, this.scale*5);
+        }
+
+
     }
 
     
@@ -528,15 +638,18 @@ PlatformerGame.Game.prototype = {
 
     if (this.level == 2) {
         this.sfx_lvl2.play();
+        this.pete.animations.play("talk_long");
         this.currentlyPlaying = this.sfx_lvl2;
     }
     else if (this.level == 3) {
         this.sfx_lvl3.play();
+        this.pete.animations.play("talk_long");
         this.currentlyPlaying = this.sfx_lvl3;
     }
     else if (this.level > 2) {
 
         this.sfx_lvl.play();
+        this.pete.animations.play("talk_long");
         this.currentlyPlaying = this.sfx_lvl;
     }
   },
@@ -587,7 +700,7 @@ PlatformerGame.Game.prototype = {
                 this.tiles[clickedY][clickedX].gridX--;
                 this.tiles[clickedY][clickedX].x += -1 - 32*parseInt(this.scale);
                 this.tiles[clickedY][clickedX - 1].gridX++;
-                this.tiles[clickedY][clickedX - 1].x += 1 + 32*this.scale;;
+                this.tiles[clickedY][clickedX - 1].x += 1 + 32*this.scale;
 
                 var tmp = this.tiles[clickedY][clickedX - 1];
                 this.tiles[clickedY][clickedX - 1] = this.tiles[clickedY][clickedX];
@@ -677,7 +790,7 @@ PlatformerGame.Game.prototype = {
     this.trainGroup.forEach(function(tile) {
         tile.kill();
     }, this);
-
+    
     this.tilesGroup = null;
     this.trainGroup = null;
     this.tilesGroup = this.game.add.group();    
@@ -722,416 +835,6 @@ PlatformerGame.Game.prototype = {
   },
   checkWin: function() {
     return false;
-
-    var win = true;
-    this.tilesGroup.forEach(function(tile) {
-        if (tile.gridType == "track_station_red_facing_south") {
-            var testDir = 0; //  0 is down, 1 is left, 2 is up, 3 is right
-            var testX = tile.gridX;
-            var testY = tile.gridY;
-            var finishedTrack = false;
-            testY++;
-            while (testY < this.gridSizeY && testX < this.gridSizeX && !finishedTrack) {
-                
-                if (testDir == 0) {
-                    if (this.tiles[testY][testX].gridType == "track_station_red_facing_north") {
-                        finishedTrack = true;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_vertical" || this.tiles[testY][testX].gridType == "track_cross") {
-                        testY++;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_north_east") {
-                        testX++;
-                        testDir = 3;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_north_west") {
-                        testX--;
-                        testDir = 1;
-                    }
-                    else {
-                        win = false;
-                        testY = this.gridSizeY;
-                    }
-                    
-                }
-                else if (testDir == 1) {
-                    if (this.tiles[testY][testX].gridType == "track_station_red_bot_facing_east") {
-                        finishedTrack = true;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_horizontal" || this.tiles[testY][testX].gridType == "track_cross") {
-                        testX--;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_south_east") {
-                        testY++;
-                        testDir = 0;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_north_east") {
-                        testY--;
-                        testDir = 2;
-                    }
-                    else {
-                        win = false;
-                        testY = this.gridSizeY;
-                    }
-                    
-                }
-                else if (testDir == 2) {
-                    if (this.tiles[testY][testX].gridType == "track_station_red_bot_facing_south") {
-                        finishedTrack = true;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_vertical" || this.tiles[testY][testX].gridType == "track_cross") {
-                        testY--;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_south_east") {
-                        testX++;
-                        testDir = 3;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_south_west") {
-                        testX--;
-                        testDir = 1;
-                    }
-                    else {
-                        win = false;
-                        testY = this.gridSizeY;
-                    }
-                    
-                }
-                else if (testDir == 3) {
-                    if (this.tiles[testY][testX].gridType == "track_station_red_bot_facing_west") {
-                        finishedTrack = true;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_horizontal" || this.tiles[testY][testX].gridType == "track_cross") {
-                        testX++;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_south_west") {
-                        testY++;
-                        testDir = 0;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_north_west") {
-                        testY--;
-                        testDir = 2;
-                    }
-                    else {
-                        win = false;
-                        testY = this.gridSizeY;
-                    }
-                    
-                }
-
-            }
-            if (!finishedTrack) {
-                win = false;
-            }
-        }
-        else if (tile.gridType == "track_station_blue_facing_south") {
-            var testDir = 0; //  0 is down, 1 is left, 2 is up, 3 is right
-            var testX = tile.gridX;
-            var testY = tile.gridY;
-            var finishedTrack = false;
-            testY++;
-            while (testY < this.gridSizeY && testX < this.gridSizeX && !finishedTrack) {
-                
-                if (testDir == 0) {
-                    if (this.tiles[testY][testX].gridType == "track_station_blue_facing_north") {
-                        finishedTrack = true;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_vertical" || this.tiles[testY][testX].gridType == "track_cross") {
-                        testY++;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_north_east") {
-                        testX++;
-                        testDir = 3;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_north_west") {
-                        testX--;
-                        testDir = 1;
-                    }
-                    else {
-                        win = false;
-                        testY = this.gridSizeY;
-                    }
-                    
-                }
-                else if (testDir == 1) {
-                    if (this.tiles[testY][testX].gridType == "track_station_blue_bot_facing_east") {
-                        finishedTrack = true;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_horizontal" || this.tiles[testY][testX].gridType == "track_cross") {
-                        testX--;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_south_east") {
-                        testY++;
-                        testDir = 0;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_north_east") {
-                        testY--;
-                        testDir = 2;
-                    }
-                    else {
-                        win = false;
-                        testY = this.gridSizeY;
-                    }
-                    
-                }
-                else if (testDir == 2) {
-                    if (this.tiles[testY][testX].gridType == "track_station_blue_bot_facing_south") {
-                        finishedTrack = true;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_vertical" || this.tiles[testY][testX].gridType == "track_cross") {
-                        testY--;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_south_east") {
-                        testX++;
-                        testDir = 3;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_south_west") {
-                        testX--;
-                        testDir = 1;
-                    }
-                    else {
-                        win = false;
-                        testY = this.gridSizeY;
-                    }
-                    
-                }
-                else if (testDir == 3) {
-                    if (this.tiles[testY][testX].gridType == "track_station_blue_bot_facing_west") {
-                        finishedTrack = true;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_horizontal" || this.tiles[testY][testX].gridType == "track_cross") {
-                        testX++;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_south_west") {
-                        testY++;
-                        testDir = 0;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_north_west") {
-                        testY--;
-                        testDir = 2;
-                    }
-                    else {
-                        win = false;
-                        testY = this.gridSizeY;
-                    }
-                    
-                }
-
-            }
-            if (!finishedTrack) {
-                win = false;
-            }
-        }
-        else if (tile.gridType == "track_station_yellow_facing_south") {
-            var testDir = 0; //  0 is down, 1 is left, 2 is up, 3 is right
-            var testX = tile.gridX;
-            var testY = tile.gridY;
-            var finishedTrack = false;
-            testY++;
-            while (testY < this.gridSizeY && testX < this.gridSizeX && !finishedTrack) {
-                
-                if (testDir == 0) {
-                    if (this.tiles[testY][testX].gridType == "track_station_yellow_facing_north" ||
-                        this.tiles[testY][testX].gridType == "track_station_yellow_facing_west" || 
-                        this.tiles[testY][testX].gridType == "track_station_yellow_facing_south" ||
-                        this.tiles[testY][testX].gridType == "track_station_yellow_facing_west") {
-                        finishedTrack = true;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_vertical" || this.tiles[testY][testX].gridType == "track_cross") {
-                        testY++;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_north_east") {
-                        testX++;
-                        testDir = 3;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_north_west") {
-                        testX--;
-                        testDir = 1;
-                    }
-                    else {
-                        win = false;
-                        testY = this.gridSizeY;
-                    }
-                    
-                }
-                else if (testDir == 1) {
-                    if (this.tiles[testY][testX].gridType == "track_station_yellow_bot_facing_east") {
-                        finishedTrack = true;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_horizontal" || this.tiles[testY][testX].gridType == "track_cross") {
-                        testX--;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_south_east") {
-                        testY++;
-                        testDir = 0;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_north_east") {
-                        testY--;
-                        testDir = 2;
-                    }
-                    else {
-                        win = false;
-                        testY = this.gridSizeY;
-                    }
-                    
-                }
-                else if (testDir == 2) {
-                    if (this.tiles[testY][testX].gridType == "track_station_yellow_bot_facing_south") {
-                        finishedTrack = true;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_vertical" || this.tiles[testY][testX].gridType == "track_cross") {
-                        testY--;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_south_east") {
-                        testX++;
-                        testDir = 3;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_south_west") {
-                        testX--;
-                        testDir = 1;
-                    }
-                    else {
-                        win = false;
-                        testY = this.gridSizeY;
-                    }
-                    
-                }
-                else if (testDir == 3) {
-                    if (this.tiles[testY][testX].gridType == "track_station_yellow_bot_facing_west") {
-                        finishedTrack = true;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_horizontal" || this.tiles[testY][testX].gridType == "track_cross") {
-                        testX++;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_south_west") {
-                        testY++;
-                        testDir = 0;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_north_west") {
-                        testY--;
-                        testDir = 2;
-                    }
-                    else {
-                        win = false;
-                        testY = this.gridSizeY;
-                    }
-                    
-                }
-
-            }
-            if (!finishedTrack) {
-                win = false;
-            }
-        }
-        else if (tile.gridType == "track_station_blue_facing_south") {
-            var testDir = 0; //  0 is down, 1 is left, 2 is up, 3 is right
-            var testX = tile.gridX;
-            var testY = tile.gridY;
-            var finishedTrack = false;
-            testY++;
-            while (testY < this.gridSizeY && testX < this.gridSizeX && !finishedTrack) {
-                
-                if (testDir == 0) {
-                    if (this.tiles[testY][testX].gridType == "track_station_blue_facing_north") {
-                        finishedTrack = true;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_vertical" || this.tiles[testY][testX].gridType == "track_cross") {
-                        testY++;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_north_east") {
-                        testX++;
-                        testDir = 3;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_north_west") {
-                        testX--;
-                        testDir = 1;
-                    }
-                    else {
-                        win = false;
-                        testY = this.gridSizeY;
-                    }
-                    
-                }
-                else if (testDir == 1) {
-                    if (this.tiles[testY][testX].gridType == "track_station_blue_bot_facing_east") {
-                        finishedTrack = true;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_horizontal" || this.tiles[testY][testX].gridType == "track_cross") {
-                        testX--;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_south_east") {
-                        testY++;
-                        testDir = 0;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_north_east") {
-                        testY--;
-                        testDir = 2;
-                    }
-                    else {
-                        win = false;
-                        testY = this.gridSizeY;
-                    }
-                    
-                }
-                else if (testDir == 2) {
-                    if (this.tiles[testY][testX].gridType == "track_station_blue_bot_facing_south") {
-                        finishedTrack = true;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_vertical" || this.tiles[testY][testX].gridType == "track_cross") {
-                        testY--;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_south_east") {
-                        testX++;
-                        testDir = 3;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_south_west") {
-                        testX--;
-                        testDir = 1;
-                    }
-                    else {
-                        win = false;
-                        testY = this.gridSizeY;
-                    }
-                    
-                }
-                else if (testDir == 3) {
-                    if (this.tiles[testY][testX].gridType == "track_station_blue_bot_facing_west") {
-                        finishedTrack = true;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_horizontal" || this.tiles[testY][testX].gridType == "track_cross") {
-                        testX++;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_south_west") {
-                        testY++;
-                        testDir = 0;
-                    }
-                    else if (this.tiles[testY][testX].gridType == "track_north_west") {
-                        testY--;
-                        testDir = 2;
-                    }
-                    else {
-                        win = false;
-                        testY = this.gridSizeY;
-                    }
-                    
-                }
-
-            }
-            if (!finishedTrack) {
-                win = false;
-            }
-        }
-    }, this);
-    
-    if (win) {
-        this.winSpeedBoost = 1; //2;
-    }
-    else {
-        this.winSpeedBoost = 1;
-    }
-        //this.scoreText.text = "            You win!";
-        //this.game.paused = true;
-        //return true;
-    
   
   },
 
@@ -1142,7 +845,6 @@ PlatformerGame.Game.prototype = {
     if (!this.win) {
         this.timeSpent = this.game.time.now - this.startTime;
     }
-//    this.timeText.text = "Time: " + this.game.math.roundTo(this.timeSpent / 1000, -1) + " s";
     this.timeText.text = "Time: " + parseFloat(this.timeSpent / 1000).toFixed(1) + "s";
     this.scoreText.text = "Number of moves: " + this.score;
 
@@ -1167,6 +869,7 @@ PlatformerGame.Game.prototype = {
             break;
             case 1: this.sfx_kremt.play();
             this.currentlyPlaying = this.sfx_kremt;
+            this.pete.animations.play("idle");
             break;
             case 2: this.sfx_find.play();
             this.currentlyPlaying = this.sfx_find;
@@ -1174,7 +877,7 @@ PlatformerGame.Game.prototype = {
             break;
             case 3: this.sfx_failure.play();
             this.currentlyPlaying = this.sfx_failure;
-            this.pete.animations.play("talk_short");
+            this.pete.animations.play("talk_medium");
             break;
             case 4: this.sfx_speed.play();
             this.currentlyPlaying = this.sfx_speed;
@@ -1186,21 +889,21 @@ PlatformerGame.Game.prototype = {
             break;
             case 6: this.sfx_helpful.play();
             this.currentlyPlaying = this.sfx_helpful;
-            this.pete.animations.play("talk_short");
+            this.pete.animations.play("talk_long");
             break;
             case 7: this.sfx_funny.play();
             this.currentlyPlaying = this.sfx_funny;
-            this.pete.animations.play("talk_medium");
+            this.pete.animations.play("talk_long");
             break;
             case 8: this.sfx_pleaseshift.play();
             this.currentlyPlaying = this.sfx_pleaseshift;
-            this.pete.animations.play("talk_medium");
+            this.pete.animations.play("talk_long");
             break;
             case 9: 
             if (this.so) {
                 this.sfx_so.play(); 
                 this.currentlyPlaying = this.sfx_so;
-                this.pete.animations.play("talk_medium");
+                this.pete.animations.play("talk_verylong");
                 this.so = false;
             }
             else {
@@ -1239,6 +942,7 @@ PlatformerGame.Game.prototype = {
             train2.kill();
             this.sfx_explosion.play();
             this.sfx_failure.play();
+            this.pete.animations.play("talk_medium");
 
         }
     }, this);
@@ -1280,10 +984,11 @@ PlatformerGame.Game.prototype = {
   //      console.log(tileAt.gridX + "," + tileAt.gridY);
 
         if (tileAt == null) {
-            tileAt = train1;
+            //tileAt = train1;
+            fail = -1;
         }
 
-        if (tileAt.gridX != train1.gridX || tileAt.gridY != train1.gridY) {
+        if (-1 != fail && (tileAt.gridX != train1.gridX || tileAt.gridY != train1.gridY)) {
             fail = parseInt( this.getNewDirection(this.tiles[parseInt(tileAt.gridY)][parseInt(tileAt.gridX)], train1) );
             if (-1 != fail) {
                 this.tiles[tileAt.gridY][tileAt.gridX].moveable = false;
@@ -1308,7 +1013,14 @@ PlatformerGame.Game.prototype = {
                     // cant move it; do nothing
                 }
                 else {
-                    this.tiles[train1.gridY][train1.gridX].moveable = true;
+                    var canMove = true;
+                    this.trainGroup.forEach(function(train2) {
+                        if(train1 != train2 && this.tiles[train1.gridY][train1.gridX] == this.tiles[train2.gridY][train2.gridX]) {
+                            canMove = false;
+                        }
+
+                    }, this);
+                    this.tiles[train1.gridY][train1.gridX].moveable = canMove;
                 }
         
                 train1.gridX = parseInt(tileAt.gridX);
@@ -1390,15 +1102,15 @@ PlatformerGame.Game.prototype = {
         switch (sound) {
             case 0: this.sfx_welldone.play();
             this.currentlyPlaying = this.sfx_welldone;
-            this.pete.animations.play("welldone");
+            this.pete.animations.play("talk_supershort");
             break;
             case 1: this.sfx_excellent.play();
             this.currentlyPlaying = this.sfx_excellent;
-            this.pete.animations.play("excellent");
+            this.pete.animations.play("talk_supershort");
             break;
             case 2: this.sfx_goodwork.play();
             this.currentlyPlaying = this.sfx_goodwork;
-            this.pete.animations.play("goodwork");
+            this.pete.animations.play("talk_supershort");
             break;
           }
 
@@ -1409,6 +1121,8 @@ PlatformerGame.Game.prototype = {
         this.errorText.text = "Success! Click next to continue!";
     }
     if (this.gamewon) { 
+        this.graphics.clear();
+    
         this.errorText.text = "That's it. You've cleared all the levels!\n                    Well done!";
     }
 
