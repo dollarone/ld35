@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>LD35 - Railroad Shifter - Scoreboard</title>
+
+        <script src="/pan/jquery-1.3.2.min.js" type="text/javascript"></script>
+        <script src="/pan/plugin-detect-0.6.3.js" type="text/javascript"></script>
+        <script src="/pan/deployJava.js" type="text/javascript"></script>
+        <script src="/pan/jquery.flash.js" type="text/javascript"></script>
+
+        <script src="/pan/fetch_whorls.js" type="text/javascript"></script>
+        <script src="/pan/md5.js"></script>
+        <style>
+          body {
+            padding: 0px;
+            margin: 0px;
+          }
+		  #mainTable {
+			border-spacing: 20px;
+          }
+          td div {
+			padding: 30px;
+            border: 2;
+            border-style: solid;
+
+          }
+		  a {
+			text-decoration: none;
+			color: black;
+		  }
+          </style>
+    </head>
+
+    <body>
+	  <center>
+        <!-- include the main game file -->
+		<br /><br />
+        <div id="username">Username loading...</div>
+        <button onclick="askForDisplayName()">Change username</button>
+        <table id="mainTable">
+			<tr>
+				<td colspan="2">
+ 					<h1><center>Railroad Shifter Highscores</center></h1>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<center>
+					Only the best score for each user is displayed.<br />
+					Equal scores are sorted randomly.<br />
+					User uniqueness via <a href="https://panopticlick.eff.org/">panopticlick</a>.
+					</center>
+				</td>
+			<tr>
+				<td>	
+			        <div id="highscores1-moves">Highscores loading...</div>
+				</td>
+				<td>
+			        <div id="highscores1-time">Highscores loading...</div>
+				</td>
+			</tr>
+            <tr>
+                <td>
+                    <div id="highscores2-moves">Highscores loading...</div>
+                </td>
+                <td>
+                    <div id="highscores2-time">Highscores loading...</div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div id="highscores3-moves">Highscores loading...</div>
+                </td>
+                <td>
+                    <div id="highscores3-time">Highscores loading...</div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div id="highscores4-moves">Highscores loading...</div>
+                </td>
+                <td>
+                    <div id="highscores4-time">Highscores loading...</div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div id="highscores5-moves">Highscores loading...</div>
+                </td>
+                <td>
+                    <div id="highscores5-time">Highscores loading...</div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div id="highscores6-moves">Highscores loading...</div>
+                </td>
+                <td>
+                    <div id="highscores6-time">Highscores loading...</div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div id="highscores7-moves">Highscores loading...</div>
+                </td>
+                <td>
+                    <div id="highscores7-time">Highscores loading...</div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div id="highscores8-moves">Highscores loading...</div>
+                </td>
+                <td>
+                    <div id="highscores8-time">Highscores loading...</div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div id="highscores9-moves">Highscores loading...</div>
+                </td>
+                <td>
+                    <div id="highscores9-time">Highscores loading...</div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div id="highscores10-moves">Highscores loading...</div>
+                </td>
+                <td>
+                    <div id="highscores10-time">Highscores loading...</div>
+                </td>
+            </tr>
+
+
+		</table>
+
+
+        <script type="text/javascript">
+<!--
+var allFonts = "";
+var flashFail = true;
+function populateFontList(fontArr)
+{
+        flashFail = false;
+
+        // thanks to http://hasseg.org/blog/post/526/getting-a-list-of-installed-fonts-with-flash-and-javascript/
+        for (var key in fontArr)
+        {
+                var fontName = fontArr[key];
+                
+                // trim
+                fontName = fontName.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+                
+                if (fontName.match(/[_\-\s]Italic$/)
+                        || fontName.match(/[_\-\s](Demi)?[Bb]old$/)
+                        || fontName.match(/[_\-\s]Medium$/)
+                        || fontName.match(/[_\-\s](Ultra)?[Ll]ight$/)
+                        || fontName.match(/[_\-\s]Condensed$/)
+                        ) {
+                        allFonts += fontName + ", ";
+                 }
+
+                else
+                {
+                        allFonts += fontName + ", ";
+                }
+        }
+        createOrLoginUser(getMD5());
+}
+
+function getMD5() {
+        
+        var test = fetch_client_whorls();
+        test['fonts'] = allFonts;
+        var test2 = "";
+        for (var i in test) {
+               test2 += test[i];
+        }
+
+        return CryptoJS.MD5(test2);
+
+}
+-->
+</script>
+<object id="fontListSWF" name="fontListSWF"
+        type="application/x-shockwave-flash"
+        data="/pan/FontList.swf" width="1" height="1">
+    <param name="movie" value="FontList.swf">
+        <embed src="/pan/FontList.swf" width="1" height="1"></embed>
+</object>
+<script>
+setTimeout(getMD5IfFlashFailed,500);
+
+function getMD5IfFlashFailed() {
+  if (flashFail) {
+    createOrLoginUser(getMD5());
+  }
+}
+var userhash = "no"
+function getUserhash() {
+   return userhash;
+}
+function createOrLoginUser(user) {
+   userhash = user
+   return user;
+}
+</script>
+<script type="text/javascript">
+function ajaxCall(method, url, data, callback, arg1, arg2) {
+    var xmlhttp;
+
+    if (window.XMLHttpRequest) {
+        // code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp = new XMLHttpRequest();
+    } else {
+        // code for IE6, IE5
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == XMLHttpRequest.DONE ) {
+            if(xmlhttp.status == 200){
+                callback(xmlhttp.responseText, arg1, arg2);
+            }
+            else if(xmlhttp.status == 400) {
+                console.log('There was an error 400')
+            }
+            else {
+                console.log('something else other than 200 was returned')
+            }
+        }
+    }
+
+    xmlhttp.open(method, url, true);
+    xmlhttp.send(data);
+}
+
+function getHighscores(level, type) {
+    ajaxCall("GET","http://myperfectgame.com/node/ld35/getHighscores?level=" + level + "&sort=" + type, null, parseHighscores, level, type);
+}
+
+function parseHighscores(response, level, type) {
+
+    var arr = JSON.parse(response);
+    var i;
+
+	var title = "quickest"
+	if (type == "moves") {
+		title = "most efficient";
+	}
+    var out = "<center><b>The top 10 " +  title + " rail shifters on level " + level + ":</b><br /><br /><table cellpadding='5'>";
+	if (type == "moves") {
+	    arr.highscores.sort(function (a, b) {
+    	    if (a.moves > b.moves) {
+        	    return 1; // -1; top score is #1
+	        }
+    	    if (b.moves > a.moves) {
+        	    return -1;
+    	    }
+            if( Math.floor((Math.random() * 10) + 1) > 4) {
+				return 1;
+			}
+			else {
+				return -1;
+			}
+	        return 0;
+	    });
+	}
+	else {
+        arr.highscores.sort(function (a, b) {
+            if (a.time > b.time) {
+                return 1; // -1; top score is #1
+            }
+            if (b.time > a.time) {
+                return -1;
+            }
+            if( Math.floor((Math.random() * 10) + 1) > 4) {
+                return 1;
+            }
+            else {
+                return -1;
+            }
+            return 0;
+        });
+
+	}
+
+	var num = 0;
+	var prev = -1;
+	var curr = 0;
+    for(i = 0; i < arr.highscores.length && i < 10; i++) {
+        out += "<tr><td>";
+		if (type == "moves") {
+			curr =  arr.highscores[i].moves;
+		}
+		else {
+			 curr = parseFloat(arr.highscores[i].time/1000).toFixed(1);
+		}
+		if (prev != curr) {
+			num++;
+	        out += num;
+		}
+		prev = curr;
+	//	out += num;
+
+		out += "</td><td>" +
+        (arr.highscores[i].username == username ? "<b><i>" : "") +
+        (arr.highscores[i].username == "null" ? "anonymous" : arr.highscores[i].username) +
+        (arr.highscores[i].username == username ? "</i></b>" : "") +
+        "</td><td>";
+		if (type == "moves") {
+			out +=  arr.highscores[i].moves + " moves";
+		}
+		else {
+			out += parseFloat(arr.highscores[i].time / 1000).toFixed(1) + " seconds";
+		}
+        "</td></tr>";
+    }
+    out += "</table></center>";
+    document.getElementById("highscores" + level + "-" + type).innerHTML = out;
+}
+
+function getUsername() {
+    ajaxCall("GET","http://myperfectgame.com/node/ld35/getUsername?username=" + getUserhash(), null, setUsername);
+}
+
+function setUsername(res) {
+    username = res;
+    document.getElementById("username").innerHTML = "Your username is " + username;
+}
+
+function updateUsername(nick) {
+    ajaxCall("GET","http://myperfectgame.com/node/ld35/setUsername?username=" + getUserhash() + "&nick=" + nick, null, setUsername);
+    reload();
+}
+
+
+function askForDisplayName() {
+	var person = username;
+    var promptText = "By which name do you wish to be known?";
+    person = prompt(promptText, person);
+    if (person != null && person != "" && person != username) {
+  	  updateUsername(person);
+	}
+}
+
+
+setTimeout(getUsername, 700);
+
+function reload() {
+setTimeout(getHighscores, 800, 1, "moves");
+setTimeout(getHighscores, 800, 1, "time");
+setTimeout(getHighscores, 800, 2, "moves");
+setTimeout(getHighscores, 800, 2, "time");
+setTimeout(getHighscores, 800, 3, "moves");
+setTimeout(getHighscores, 800, 3, "time");
+setTimeout(getHighscores, 800, 4, "moves");
+setTimeout(getHighscores, 800, 4, "time");
+setTimeout(getHighscores, 800, 5, "moves");
+setTimeout(getHighscores, 800, 5, "time");
+setTimeout(getHighscores, 800, 6, "moves");
+setTimeout(getHighscores, 800, 6, "time");
+setTimeout(getHighscores, 800, 7, "moves");
+setTimeout(getHighscores, 800, 7, "time");
+setTimeout(getHighscores, 800, 8, "moves");
+setTimeout(getHighscores, 800, 8, "time");
+setTimeout(getHighscores, 800, 9, "moves");
+setTimeout(getHighscores, 800, 9, "time");
+setTimeout(getHighscores, 800, 10, "moves");
+setTimeout(getHighscores, 800, 10, "time");
+}
+reload();
+
+</script>
+   </center>
+ </body>
+</html>
