@@ -1095,11 +1095,11 @@ PlatformerGame.Game.prototype = {
     this.goalsText.text = tmpText;
     if (success) {
         if (!this.win) {
-        var sound = this.game.rnd.integerInRange(0, 2);
-        if (this.currentlyPlaying != null) {
-            this.currentlyPlaying.stop();
-        }
-        switch (sound) {
+          var sound = this.game.rnd.integerInRange(0, 2);
+          if (this.currentlyPlaying != null) {
+              this.currentlyPlaying.stop();
+          }
+          switch (sound) {
             case 0: this.sfx_welldone.play();
             this.currentlyPlaying = this.sfx_welldone;
             this.pete.animations.play("talk_supershort");
@@ -1114,7 +1114,7 @@ PlatformerGame.Game.prototype = {
             break;
           }
 
-            
+          this.sendScore(getUserhash(), this.level, this.timeSpent, this.score);           
         }
         this.win = true;
         this.next_button.frame = 0;
@@ -1126,6 +1126,25 @@ PlatformerGame.Game.prototype = {
         this.errorText.text = "That's it. You've cleared all the levels!\n                    Well done!";
     }
 
+  },
+
+  getTimestamp: function() {
+    if (!Date.now) {
+      Date.now = function() { return new Date().getTime();  }
+    }
+    return Date.now();
+  },
+
+
+  sendScore : function(username, level, time, moves) {
+
+    var data="username="+username+"&level="+level+"&time="+time+"&moves="+moves+"&timestamp="+this.getTimestamp();
+
+    var request = new XMLHttpRequest();
+    request.open('POST', 'http://myperfectgame.com/node/ld35/sendScore', true);
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+
+    request.send(data);
   },
 
   getTileAtPos: function(x, y) {
